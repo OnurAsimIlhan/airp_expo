@@ -2,6 +2,7 @@ import { View, Text } from 'react-native'
 import React, { useLayoutEffect } from 'react'
 import LoadingScreen from './LoadingScreen'
 import { useNavigation } from '@react-navigation/native';
+import TransportUnits from '../components/TransportUnits';
 
 const RouteMaker = () => {
   const navigation = useNavigation();
@@ -17,6 +18,7 @@ const RouteMaker = () => {
   }, []);
   return (
     <View>
+      <TransportUnits/>
     </View>
   )
 }
