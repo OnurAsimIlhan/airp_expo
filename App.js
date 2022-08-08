@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { TailwindProvider } from "tailwindcss-react-native";
 import { NavigationContainer } from '@react-navigation/native';
-import {createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import InitPage from './screens/InitPage';
 import HomeScreen from './screens/HomeScreen';
 import CallTaxi from './screens/CallTaxi';
@@ -22,14 +22,11 @@ import CalendarScreen from './screens/CalendarScreen';
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+  const user = false;
   return (
-    
-      <NavigationContainer> 
+    <NavigationContainer>
       <TailwindProvider>
         <Stack.Navigator>
-          <Stack.Screen name="InitPage" component={InitPage} />
-          <Stack.Screen name="SignUp" component={SignUp} />
-          <Stack.Screen name="ForgetPassword" component={ForgetPassword} />
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="Wallet" component={Wallet} />
           <Stack.Screen name="Settings" component={Settings} />
@@ -37,18 +34,21 @@ export default function App() {
           <Stack.Screen name="Notification" component={Notification} />
           <Stack.Screen name="CallTaxi" component={CallTaxi} />
           <Stack.Screen name="RouteMaker" component={RouteMaker} />
-          <Stack.Screen name="InitForgetPass" component={InitForgetPass} />
-          <Stack.Screen name="ResetPassword" component={ResetPassword} />
           <Stack.Screen name="EditProfile" component={EditProfile} />
           <Stack.Screen name="LoadingScreen" component={LoadingScreen} />
           <Stack.Screen name="CalendarScreen" component={CalendarScreen} />
 
+          <Stack.Screen name="InitPage" component={InitPage} />
+          <Stack.Screen name="SignUp" component={SignUp} />
+          <Stack.Screen name="ForgetPassword" component={ForgetPassword} />
+          <Stack.Screen name="InitForgetPass" component={InitForgetPass} />
+          <Stack.Screen name="ResetPassword" component={ResetPassword} />
         </Stack.Navigator>
       </TailwindProvider>
     </NavigationContainer>
 
-    
-    
+
+
   );
 };
 

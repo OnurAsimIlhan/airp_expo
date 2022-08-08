@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "792551644757",
+    "firebase_url": "https://airpreneursfb-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "airpreneursfb",
+    "storage_bucket": "airpreneursfb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:792551644757:android:036c3267a67d4275b8bedc",
+        "android_client_info": {
+          "package_name": "host.exp.exponent"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "792551644757-rpcv6tsmatjguln82dgof8vi3oqi6dbo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDR-e7tnvH4F5SFR_YWs1I2etAZAXmloRo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "792551644757-rpcv6tsmatjguln82dgof8vi3oqi6dbo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

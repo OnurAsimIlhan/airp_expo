@@ -28,8 +28,6 @@ const InitPage = () => {
 
     return unsubscribe
   }, [])
-
-
   const handleLogin = () => {
     auth
       .signInWithEmailAndPassword(email, password)
@@ -40,7 +38,6 @@ const InitPage = () => {
     
   }
 
-  
   const onInitForgetPassword = () => {
     navigation.navigate("InitForgetPass")
   }
