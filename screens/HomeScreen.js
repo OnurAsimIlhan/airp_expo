@@ -26,7 +26,7 @@ const HomeScreen = () => {
           source={require("../assets/loading.gif")}
           animation=""
           iterationCount={1}
-          className="h-12 w-12 mr-1 mt-2"
+          className="h-12 w-12 mr-1 mt-1"
         />
 
 
