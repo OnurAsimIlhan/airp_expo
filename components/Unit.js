@@ -10,7 +10,7 @@ const Unit = ({
     }
     return (
         <TouchableOpacity className='border-2 border-black rounded-xl' onPress={toggle}>
-            {state ? <Image source={icon} className='h-16 w-16 rounded-xl bg-[#72cfe7ff]'/> : <Image source={icon} className='h-16 w-16 rounded-xl'/>}
+            {state ? <Image source={icon} className='h-20 w-20 rounded-xl bg-[#72cfe7ff]'/> : <Image source={icon} className='h-20 w-20 rounded-xl'/>}
         </TouchableOpacity>
 
     )
