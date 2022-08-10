@@ -7,7 +7,6 @@ import {auth} from '../firebase';
 import LoadingScreen from './LoadingScreen';
 import * as Animateable from 'react-native-animatable'
 
-
 const InitPage = () => {
   const navigation = useNavigation();
   useLayoutEffect(() => {
@@ -15,9 +14,9 @@ const InitPage = () => {
       headerShown: false,
     });
   }, []);
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
@@ -25,9 +24,9 @@ const InitPage = () => {
         navigation.navigate("Home")
       }
     })
-
     return unsubscribe
   }, [])
+
   const handleLogin = () => {
     auth
       .signInWithEmailAndPassword(email, password)
@@ -35,8 +34,9 @@ const InitPage = () => {
         return userCredentials.user.updateProfile({name:email})
       })
       .catch(error => alert(error.message))
-    
   }
+
+  
 
   const onInitForgetPassword = () => {
     navigation.navigate("InitForgetPass")

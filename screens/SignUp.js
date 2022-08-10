@@ -2,7 +2,7 @@ import { View, Text, TouchableOpacity, Pressable } from 'react-native'
 import React, { useLayoutEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import CustomInput from '../components/CustomInput';
-import {auth} from '../firebase';
+import {auth, db} from '../firebase';
 import {uid} from 'uid';
 const SignUp = () => {
   const navigation = useNavigation();
@@ -27,9 +27,18 @@ const SignUp = () => {
       .then(userCredentials => {
         const user = userCredentials.user;
         console.log('Registered with:', user.email);
+        db.collection('users').doc(auth.currentUser.uid).set({
+          email: email,
+          username: username,
+          uid: user.uid,
+          userImg: null
+        }).then(() => {
+          setUsername ='';
+          setEmail = ''
+        })
       })
       .catch(error => alert(error.message))
-  
+    
   }
 
   return (
