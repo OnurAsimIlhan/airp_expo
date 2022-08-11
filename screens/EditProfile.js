@@ -93,7 +93,7 @@ const EditProfile = () => {
   }
 
   return (
-    <View className='mt-8'>
+    <View className='mt-16'>
       <View className='items-center mt-4'>
         {image ? <Image source={{ uri: image.uri }} className='w-40 h-40 rounded-full' /> : <Image source={{ uri: user?.userImg }}
           className='h-40 w-40 rounded-full'
