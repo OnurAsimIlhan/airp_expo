@@ -31,7 +31,7 @@ const SignUp = () => {
           email: email,
           username: username,
           uid: user.uid,
-          userImg: null
+          userImg: 'https://firebasestorage.googleapis.com/v0/b/airpreneursfb.appspot.com/o/user.png?alt=media&token=6b8cfab9-4aa6-40de-98bc-878b681d6a9d'
         }).then(() => {
           setUsername ='';
           setEmail = ''

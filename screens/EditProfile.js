@@ -9,6 +9,8 @@ import { Alert } from 'react-native-web';
 const EditProfile = () => {
   const [username, setUsername] = useState('');
   const [image, setImage] = useState('');
+  const [imageUrl, setImageUrl] = useState('');
+
   const [hasGalleryPermit, setGalleryPermit] = useState(null);
   const navigation = useNavigation();
   useLayoutEffect(() => {
@@ -24,7 +26,7 @@ const EditProfile = () => {
 
   const updateClicked = () => {
     db.collection('users').doc(auth.currentUser.uid).update({ username: username })
-    db.collection('users').doc(auth.currentUser.uid).update({ userImg: 'https://firebasestorage.googleapis.com/v0/b/airpreneursfb.appspot.com/o/95gttKtri6a6tLzEJv9txF5q5Gw2?alt=media&token=3b2b2660-2217-4029-be78-d415ea290e79'})
+    db.collection('users').doc(auth.currentUser.uid).update({ userImg: imageUrl })
   }
 
 
@@ -43,9 +45,19 @@ const EditProfile = () => {
     }
   };
 
+  const getUrl = () => {
+    str
+      .ref('/' + user?.uid) //name in storage in firebase console
+      .getDownloadURL()
+      .then((url) => {
+        setImageUrl(url);
+      })
+  };
+
   // Get user on mount
   useEffect(() => {
     getUser();
+    
   }, []);
 
 
@@ -62,7 +74,7 @@ const EditProfile = () => {
     setImage(source);
   }
 
-  
+
   const uploadImage = async () => {
     setUploading(true);
     const response = await fetch(image.uri)
@@ -77,7 +89,7 @@ const EditProfile = () => {
     setUploading(false);
     Alert.alert('photo uploaded')
     setImage(null)
-    
+    getUrl()
   }
 
   return (
