@@ -1,7 +1,7 @@
 import { View, Text, TouchableOpacity, SafeAreaView, Image, Pressable, StyleSheet, ScrollView } from 'react-native'
-import React, { useLayoutEffect } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
-import { auth } from '../firebase'
+import { auth, db } from '../firebase'
 import VisitList from '../components/VisitList'
 import { ArrowRightIcon } from 'react-native-heroicons/outline'
 import Posts from '../components/Posts'
@@ -12,11 +12,11 @@ const Profil = () => {
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: true,
-      headerStyle:{
-        backgroundColor:"#72cfe7ff"
+      headerStyle: {
+        backgroundColor: "#72cfe7ff"
       },
       headerTitleAlign: "center",
-      title:"Profil"
+      title: "Profil"
     });
   }, []);
 
@@ -32,19 +32,40 @@ const Profil = () => {
       })
       .catch(error => alert(error.message))
   }
+  const [user, setUser] = useState();
+  const getUser = async () => {
+    try {
+      const documentSnapshot = await db
+        .collection('users')
+        .doc(auth.currentUser.uid)
+        .get();
 
+      const userData = documentSnapshot.data();
+      setUser(userData);
+    } catch {
+      //do whatever
+    }
+  };
+
+  // Get user on mount
+  useEffect(() => {
+    getUser();
+  }, []);
+
+  // return info if user is set
   return (
     
     <ScrollView className='bg-gray-100'>
+      
       <SafeAreaView className=''>
-        
+
         <View className='items-center'>
           <View className='w-40 h-40 justify-center mt-20 mb-5 rounded-full'>
             <Image source={require('../assets/gandalf.png')}
-              className='h-40 w-40 my-20 p-10 rounded-full' 
+              className='h-40 w-40 my-20 p-10 rounded-full'
             />
           </View>
-          <Text>You are signed in with: {auth.currentUser?.email}</Text>
+          <Text>You are signed in with: {user?.username}</Text>
         </View>
         <View className='flex-row justify-center'>
           <Pressable
@@ -61,7 +82,7 @@ const Profil = () => {
           </Pressable>
         </View>
 
-        <View className= 'flex-row justify-around w-full mb-5 mt-4'>
+        <View className='flex-row justify-around w-full mb-5 mt-4'>
           <View className='w-20 h-20 justify-center'>
             <Text className='font-bold text-lg  text-center mb-1'>111</Text>
             <Text className='text-center text-xs color-gray-500'>Posts</Text>
@@ -94,7 +115,7 @@ const Profil = () => {
           rating={4.5}
           place="recent"
         />
-        
+
       </SafeAreaView>
     </ScrollView>
   )
