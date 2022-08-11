@@ -61,7 +61,7 @@ const Profil = () => {
 
         <View className='items-center'>
           <View className='w-40 h-40 justify-center mt-20 mb-5 rounded-full'>
-            <Image source={require('../assets/gandalf.png')}
+            <Image source={{uri: 'https://firebasestorage.googleapis.com/v0/b/airpreneursfb.appspot.com/o/95gttKtri6a6tLzEJv9txF5q5Gw2?alt=media&token=3b2b2660-2217-4029-be78-d415ea290e79'}}
               className='h-40 w-40 my-20 p-10 rounded-full'
             />
           </View>
