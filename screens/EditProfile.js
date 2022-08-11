@@ -57,7 +57,7 @@ const EditProfile = () => {
   // Get user on mount
   useEffect(() => {
     getUser();
-    
+
   }, []);
 
 
@@ -88,32 +88,42 @@ const EditProfile = () => {
     }
     setUploading(false);
     Alert.alert('photo uploaded')
-    setImage(null)
     getUrl()
   }
 
   return (
-    <View>
-      <CustomInput placeholder="Name" value={username} setValue={setUsername} secureTextEntry={false} />
-      <TouchableOpacity onPress={updateClicked}>
-        <Text>update</Text>
-      </TouchableOpacity>
+    <View className='mt-4'>
+      <View className='items-center'>
+        {image ? <Image source={{ uri: image.uri }} className='w-40 h-40 rounded-full' /> : <Image source={{ uri: user?.userImg }}
+          className='h-40 w-40 rounded-full'
+        />}
+        <View className='flex-row'>
+          <TouchableOpacity className='bg-[#72cfe7ff] rounded-lg mt-2 mx-5 w-32 h-10 justify-center' onPress={pickImage}>
+            <Text className='text-center'>
+              Pick Picture
+            </Text>
+          </TouchableOpacity>
 
-      <TouchableOpacity className='flex-1 items-center justify-center' onPress={pickImage}>
-        <Text>Pick Image</Text>
-      </TouchableOpacity>
-      <View>
-        
-        {image ? <Image source={{ uri: image.uri }} className='w-40 h-40 rounded-full' /> : <Image source={{uri: user?.userImg}}
-              className='h-40 w-40 rounded-full'
-            />}
-        <TouchableOpacity onPress={uploadImage}>
-          <Text>
-            Upload Image
-          </Text>
-        </TouchableOpacity>
+          <TouchableOpacity className='bg-[#72cfe7ff] rounded-lg mt-2 mx-5 w-32 h-10 justify-center' onPress={uploadImage}>
+            <Text className='text-center'>Upload Image</Text>
+          </TouchableOpacity>
+        </View>
 
       </View>
+      <CustomInput placeholder={user?.username} value={username} setValue={setUsername} secureTextEntry={false} />
+      <CustomInput placeholder={user?.username} value={username} setValue={setUsername} secureTextEntry={false} />
+      <CustomInput placeholder={user?.username} value={username} setValue={setUsername} secureTextEntry={false} />
+      <CustomInput placeholder={user?.username} value={username} setValue={setUsername} secureTextEntry={false} />
+      <CustomInput placeholder={user?.username} value={username} setValue={setUsername} secureTextEntry={false} />
+      <View className='items-center mt-10'>
+        <TouchableOpacity className='bg-[#72cfe7ff] rounded-lg mt-2 mx-1 w-32 h-10 justify-center' onPress={updateClicked}>
+          <Text className='text-center'>update</Text>
+        </TouchableOpacity>
+      </View>
+      
+
+
+
 
     </View>
 
