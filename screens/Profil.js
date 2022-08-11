@@ -65,20 +65,20 @@ const Profil = () => {
               className='h-40 w-40 my-20 p-10 rounded-full'
             />
           </View>
-          <Text>You are signed in with: {user?.username}</Text>
+          <Text className='font-bold'>Merhaba  {user?.username}</Text>
         </View>
         <View className='flex-row justify-center'>
           <Pressable
             onPress={editProfile}
-            className='h-10 w-100 mx-5 my-3 bg-blue-500 rounded-lg'
+            className='h-10 w-100 mx-5 my-3 bg-[#72cfe7ff] rounded-lg'
           >
-            <Text className='p-2.5 text-center color-white font-bold'>Edit Profile</Text>
+            <Text className='p-2.5 text-center  font-bold'>Edit Profile</Text>
           </Pressable>
           <Pressable
             onPress={handleSignOut}
-            className='h-10 w-100 mx-5 my-3 bg-blue-500 rounded-lg'
+            className='h-10 w-100 mx-5 my-3 bg-[#72cfe7ff] rounded-lg'
           >
-            <Text className='p-2.5 text-center color-white font-bold'>  Sign Out  </Text>
+            <Text className='p-2.5 text-center font-bold'>  Sign Out  </Text>
           </Pressable>
         </View>
 
