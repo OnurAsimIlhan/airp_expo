@@ -103,7 +103,10 @@ const EditProfile = () => {
         <Text>Pick Image</Text>
       </TouchableOpacity>
       <View>
-        {image ? <Image source={{ uri: image.uri }} className='w-40 h-40 rounded-full' /> : null}
+        
+        {image ? <Image source={{ uri: image.uri }} className='w-40 h-40 rounded-full' /> : <Image source={{uri: user?.userImg}}
+              className='h-40 w-40 rounded-full'
+            />}
         <TouchableOpacity onPress={uploadImage}>
           <Text>
             Upload Image
