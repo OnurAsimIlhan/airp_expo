@@ -42,13 +42,10 @@ const CallTaxi = () => {
             latitude: lat,
             longitude: lng,
           }
-
-          
           place['placeTypes'] = googlePlace.types
           place['coordinate'] = coordinate
           place['placeId'] = googlePlace.place_id
           place['placeName'] = googlePlace.name
-          
 
           places.push(place);
         }
@@ -68,11 +65,11 @@ const CallTaxi = () => {
 
   };
   
-  const getMoreDetails = async () => {
-    const url = 'https://maps.googleapis.com/maps/api/place/details/json?fields=name%2Crating%2Cformatted_phone_number&place_id='+  + '&key=AIzaSyDR-e7tnvH4F5SFR_YWs1I2etAZAXmloRo'
+  const getMoreDetails = async (placeId) => {
+    const url = 'https://maps.googleapis.com/maps/api/place/details/json?fields=name%2Crating%2Cformatted_phone_number&place_id='+ placeId + '&key=AIzaSyDR-e7tnvH4F5SFR_YWs1I2etAZAXmloRo'
     const response = await fetch(url)
     const data = await response.json()
-    console.log(data.result.formatted_phone_number)
+    console.log()
     return data.result.formatted_phone_number
   }
   return (
@@ -112,14 +109,16 @@ const CallTaxi = () => {
 
         {taxiPlaces[0] != null && taxiPlaces.map((marker, index) => (
             <Marker
-                
+
                 key = {index}
                 coordinate = {{
                     latitude: marker.coordinate.latitude,
                     longitude: marker.coordinate.longitude
                 }}
                 title = { marker.placeName }
+                description = {marker.placeId}
             >
+              
             <Callout></Callout>
           </Marker>
         ))
