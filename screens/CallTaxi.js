@@ -1,8 +1,9 @@
 import { View, Text, SafeAreaView, StyleSheet, Dimensions } from 'react-native'
-import React, { useLayoutEffect } from 'react'
+import React, { useEffect, useLayoutEffect } from 'react'
 import MapView, { Callout, Marker } from 'react-native-maps'
 import { useNavigation } from '@react-navigation/native';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import render from 'react-native-web/dist/cjs/exports/render';
 
 const CallTaxi = () => {
   const navigation = useNavigation();
@@ -16,12 +17,18 @@ const CallTaxi = () => {
       title: "Taksi Çağır"
     });
   }, []);
+  useEffect(() => {
+    fetchNearbyPlaces()
+  }, []);
+
+  var places = [] // This Array WIll contain locations received from google
+
   const fetchNearbyPlaces = async () => {
     const latitude = 39.8746;
     const longitude = 32.7476;
     let radius = 4 * 1000;
 
-    const url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + latitude + ',' + longitude + '&radius=' + radius + '&key=' + 'AIzaSyDR-e7tnvH4F5SFR_YWs1I2etAZAXmloRo';
+    const url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + latitude + ',' + longitude + '&radius=' + radius + '&type=' + 'taxi_stand' + '&key=' + 'AIzaSyDR-e7tnvH4F5SFR_YWs1I2etAZAXmloRo';
 
     fetch(url)
       .then(res => {
@@ -29,8 +36,7 @@ const CallTaxi = () => {
       })
       .then(res => {
 
-      var places = [] // This Array WIll contain locations received from google
-        for(let googlePlace of res.results) {
+        for (let googlePlace of res.results) {
           var place = {}
           var lat = googlePlace.geometry.location.lat;
           var lng = googlePlace.geometry.location.lng;
@@ -38,35 +44,32 @@ const CallTaxi = () => {
             latitude: lat,
             longitude: lng,
           }
-
-          var gallery = []
-
-          if (googlePlace.photos) {
-           for(let photo of googlePlace.photos) {
-             var photoUrl = Urls.GooglePicBaseUrl + photo.photo_reference;
-             gallery.push(photoUrl);
-          }
-        }
-
           place['placeTypes'] = googlePlace.types
           place['coordinate'] = coordinate
           place['placeId'] = googlePlace.place_id
           place['placeName'] = googlePlace.name
-          place['gallery'] = gallery
+
 
           places.push(place);
         }
-
+        console.log(
+          'Taksi = ' +
+          places.map(nearbyPlaces => nearbyPlaces.placeName),
+        );
         // Do your work here with places Array
       })
       .catch(error => {
         console.log(error);
       });
-    
-  }
+  };
+  
+
+  
+
+
   return (
     <View style={styles.container}>
-      
+
       <MapView style={styles.map}
         showsUserLocation
         mapType="mutedStandard"
@@ -77,7 +80,7 @@ const CallTaxi = () => {
           latitudeDelta: 0.05,
         }}
       >
-        <Marker
+      <Marker
           coordinate={{
             latitude: 39.8746,
             longitude: 32.7476
@@ -86,7 +89,10 @@ const CallTaxi = () => {
           <Callout>
             <Text>I am here</Text>
           </Callout>
-        </Marker>
+      </Marker>
+
+       
+  
       </MapView>
     </View>
   );
