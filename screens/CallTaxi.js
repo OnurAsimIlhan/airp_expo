@@ -1,5 +1,5 @@
-import { View, Text, SafeAreaView, StyleSheet, Dimensions } from 'react-native'
-import React, { useEffect, useLayoutEffect } from 'react'
+import { View, Text, SafeAreaView, StyleSheet, Dimensions, Button, TouchableOpacity } from 'react-native'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import MapView, { Callout, Marker } from 'react-native-maps'
 import { useNavigation } from '@react-navigation/native';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
@@ -22,7 +22,7 @@ const CallTaxi = () => {
   }, []);
 
   var places = [] // This Array WIll contain locations received from google
-
+  const [taxiPlaces, setTaxiPlaces] = useState('')
   const fetchNearbyPlaces = async () => {
     const latitude = 39.8746;
     const longitude = 32.7476;
@@ -30,7 +30,7 @@ const CallTaxi = () => {
 
     const url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + latitude + ',' + longitude + '&radius=' + radius + '&type=' + 'taxi_stand' + '&key=' + 'AIzaSyDR-e7tnvH4F5SFR_YWs1I2etAZAXmloRo';
 
-    fetch(url)
+    await fetch(url)
       .then(res => {
         return res.json()
       })
@@ -44,6 +44,8 @@ const CallTaxi = () => {
             latitude: lat,
             longitude: lng,
           }
+
+
           place['placeTypes'] = googlePlace.types
           place['coordinate'] = coordinate
           place['placeId'] = googlePlace.place_id
@@ -52,24 +54,25 @@ const CallTaxi = () => {
 
           places.push(place);
         }
+        
         console.log(
           'Taksi = ' +
           places.map(nearbyPlaces => nearbyPlaces.placeName),
+          places.map(nearbyPlaces => nearbyPlaces.coordinate),
+
         );
         // Do your work here with places Array
       })
       .catch(error => {
         console.log(error);
       });
+      setTaxiPlaces(places)
+
   };
   
 
-  
-
-
   return (
     <View style={styles.container}>
-
       <MapView style={styles.map}
         showsUserLocation
         mapType="mutedStandard"
@@ -80,20 +83,44 @@ const CallTaxi = () => {
           latitudeDelta: 0.05,
         }}
       >
-      <Marker
+        <Marker
           coordinate={{
             latitude: 39.8746,
             longitude: 32.7476
           }}
         >
           <Callout>
-            <Text>I am here</Text>
+            <Text>Here</Text>
           </Callout>
-      </Marker>
+        </Marker>
 
-       
-  
+        <Marker
+        
+          coordinate={{
+            latitude: 39.8746,
+            longitude: 32.7476
+          }}
+        >
+          <Callout>
+            <Text>Here</Text>
+          </Callout>
+        </Marker>
+
+        {taxiPlaces[0] != null && taxiPlaces.map((marker, index) => (
+            <Marker
+            showCallout
+                key = {index}
+                coordinate = {{
+                    latitude: marker.coordinate.latitude,
+                    longitude: marker.coordinate.longitude
+                }}
+                title = { marker.placeName }
+            />
+        ))
+ }
+        
       </MapView>
+     
     </View>
   );
 }
