@@ -1,7 +1,11 @@
-import { View, Text, SafeAreaView, StyleSheet, Dimensions, Button, TouchableOpacity } from 'react-native'
+import { View, Text, SafeAreaView, StyleSheet, Dimensions, Button, TouchableOpacity, TouchableHighlight, Image } from 'react-native'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import MapView, { Callout, Marker } from 'react-native-maps'
 import { useNavigation } from '@react-navigation/native';
+import { set } from 'react-hook-form';
+import {Linking} from 'react-native'
+import { PhoneIcon } from 'react-native-heroicons/solid';
+
 const CallTaxi = () => {
   const navigation = useNavigation();
   useLayoutEffect(() => {
@@ -20,14 +24,14 @@ const CallTaxi = () => {
 
   var places = [] // This Array WIll contain locations received from google
   const [taxiPlaces, setTaxiPlaces] = useState('')
-
+  const [taxiData, setTaxiData] = useState('')
   const fetchNearbyPlaces = async () => {
     const latitude = 39.8746;
     const longitude = 32.7476;
     let radius = 4 * 1000;
 
-    const url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + latitude + ',' + longitude + '&radius=' + radius + '&type=' + 'taxi_stand' + '&key=' + 'AIzaSyDR-e7tnvH4F5SFR_YWs1I2etAZAXmloRo';
-
+    const url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + latitude + ',' + longitude + '&radius=' + radius +'&type=' + 'taxi_stand' + '&key=' + 'AIzaSyDR-e7tnvH4F5SFR_YWs1I2etAZAXmloRo';
+    
     await fetch(url)
       .then(res => {
         return res.json()
@@ -46,10 +50,9 @@ const CallTaxi = () => {
           place['coordinate'] = coordinate
           place['placeId'] = googlePlace.place_id
           place['placeName'] = googlePlace.name
-
           places.push(place);
         }
-        
+
         console.log(
           'Taksi = ' +
           places.map(nearbyPlaces => nearbyPlaces.placeName),
@@ -59,19 +62,26 @@ const CallTaxi = () => {
       .catch(error => {
         console.log(error);
       });
-      setTaxiPlaces(places)
-
-
+    setTaxiPlaces(places)
+    pressMarker(places[0]);
 
   };
-  
-  const getMoreDetails = async (placeId) => {
-    const url = 'https://maps.googleapis.com/maps/api/place/details/json?fields=name%2Crating%2Cformatted_phone_number&place_id='+ placeId + '&key=AIzaSyDR-e7tnvH4F5SFR_YWs1I2etAZAXmloRo'
-    const response = await fetch(url)
-    const data = await response.json()
-    console.log()
-    return data.result.formatted_phone_number
-  }
+
+
+  const pressMarker = async (i) => {
+    const url = 'https://maps.googleapis.com/maps/api/place/details/json?fields=name%2Crating%2Cformatted_phone_number&place_id=' + i.placeId + '&key=AIzaSyDR-e7tnvH4F5SFR_YWs1I2etAZAXmloRo'
+
+    const data = await fetch(url)
+      .then(response => {
+        return response.json()
+      })
+    const taxiInfo ={ phone:data.result.formatted_phone_number, name: i.placeName, id: i.placeId}
+    console.log(data.result.formatted_phone_number)
+    setTaxiData(taxiInfo)
+  };
+
+
+
   return (
     <View style={styles.container}>
       <MapView style={styles.map}
@@ -80,52 +90,69 @@ const CallTaxi = () => {
         initialRegion={{
           latitude: 39.8746,
           longitude: 32.7476,
-          longitudeDelta: 0.05,
-          latitudeDelta: 0.05,
+          longitudeDelta: 0.07,
+          latitudeDelta: 0.07,
         }}
       >
         <Marker
+
+          pinColor='#0fff'
           coordinate={{
             latitude: 39.8746,
             longitude: 32.7476
           }}
         >
           <Callout>
-            <Text>Here</Text>
+
           </Callout>
         </Marker>
 
-        <Marker
-        
-          coordinate={{
-            latitude: 39.8746,
-            longitude: 32.7476
-          }}
-        >
-          <Callout>
-            <Text>Here</Text>
-          </Callout>
-        </Marker>
+
 
         {taxiPlaces[0] != null && taxiPlaces.map((marker, index) => (
-            <Marker
-
-                key = {index}
-                coordinate = {{
-                    latitude: marker.coordinate.latitude,
-                    longitude: marker.coordinate.longitude
-                }}
-                title = { marker.placeName }
-                description = {marker.placeId}
-            >
-              
-            <Callout></Callout>
-          </Marker>
+          <MapView.Marker
+            onPress={() => pressMarker(marker)}
+            key={index}
+            coordinate={{
+              latitude: marker.coordinate.latitude,
+              longitude: marker.coordinate.longitude
+            }}
+            title={marker.placeName}
+          >
+          </MapView.Marker>
         ))
-      }
-        
+        }
+
       </MapView>
-     
+
+      <View className='h-96 p-6 bg-gray-100 flex-row justify-between'>
+        <View>
+          <Text className='font-bold text-xl mb-4'>{taxiData.name}</Text>
+
+          <View className='flex-row items-center'>
+            <Text className='text-lg'>{taxiData.phone}      </Text>
+              <TouchableOpacity
+                className=''>
+              <PhoneIcon size={30} color='#72cfe7ff'/>
+              </TouchableOpacity>
+          </View>
+            
+          
+          <TouchableOpacity 
+            onPress={()=>{Linking.openURL(`tel:${taxiData.phone}`)}}
+            className='bg-[#72cfe7ff] items-center rounded-lg my-5 h-10 w-20'>
+            <Text className='text-center mt-2.5 font-bold'>Hemen Çağır</Text>
+          </TouchableOpacity>
+
+        </View>
+        
+        <View className='mt-2'>
+          <Image source={require('../assets/taxi.png')}
+            className='h-20 w-20 mx-4 my-2'
+          />
+        </View>
+        
+      </View>
     </View>
   );
 }
@@ -136,7 +163,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
     justifyContent: 'center',
   },
   map: {
