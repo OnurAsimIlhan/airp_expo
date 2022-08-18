@@ -3,8 +3,10 @@ import React, { useEffect, useLayoutEffect, useState } from 'react'
 import MapView, { Callout, Marker } from 'react-native-maps'
 import { useNavigation } from '@react-navigation/native';
 import { set } from 'react-hook-form';
-import {Linking} from 'react-native'
+import { Linking } from 'react-native'
 import { PhoneIcon } from 'react-native-heroicons/solid';
+import LoadingScreen from './LoadingScreen';
+import * as Animateable from 'react-native-animatable'
 
 const CallTaxi = () => {
   const navigation = useNavigation();
@@ -13,6 +15,7 @@ const CallTaxi = () => {
       headerShown: true,
       headerStyle: {
         backgroundColor: "#72cfe7ff"
+        
       },
       headerTitleAlign: "center",
       title: "Taksi Çağır"
@@ -25,13 +28,16 @@ const CallTaxi = () => {
   var places = [] // This Array WIll contain locations received from google
   const [taxiPlaces, setTaxiPlaces] = useState('')
   const [taxiData, setTaxiData] = useState('')
+  const [loading, setLoading] = useState(false)
   const fetchNearbyPlaces = async () => {
+    
     const latitude = 39.8746;
     const longitude = 32.7476;
     let radius = 4 * 1000;
 
-    const url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + latitude + ',' + longitude + '&radius=' + radius +'&type=' + 'taxi_stand' + '&key=' + 'AIzaSyDR-e7tnvH4F5SFR_YWs1I2etAZAXmloRo';
-    
+    const url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + latitude + ',' + longitude + '&radius=' + radius + '&type=' + 'taxi_stand' + '&key=' + 'AIzaSyDR-e7tnvH4F5SFR_YWs1I2etAZAXmloRo';
+    setLoading(false)
+    console.log(loading)
     await fetch(url)
       .then(res => {
         return res.json()
@@ -62,8 +68,13 @@ const CallTaxi = () => {
       .catch(error => {
         console.log(error);
       });
+    
+    
     setTaxiPlaces(places)
     pressMarker(places[0]);
+    
+    //setTimeout(()=>{setLoading({loading: true})}, 2000);
+    console.log(loading)
 
   };
 
@@ -75,16 +86,25 @@ const CallTaxi = () => {
       .then(response => {
         return response.json()
       })
-    const taxiInfo ={ phone:data.result.formatted_phone_number, name: i.placeName, id: i.placeId}
+    const taxiInfo = { phone: data.result.formatted_phone_number, name: i.placeName, id: i.placeId }
     console.log(data.result.formatted_phone_number)
     setTaxiData(taxiInfo)
+    
   };
 
 
 
   return (
-    <View style={styles.container}>
-      <MapView style={styles.map}
+    
+    <View className='flex-1 justify-end'>
+      <View className='z-50 rounded-full justify-between items-center'>
+        {loading?  (null) : (<Animateable.Image
+                  source={require("../assets/loading.gif")}
+                  iterationCount={1}
+                  className="h-48 w-48 mt-20 absolute rounded-full"
+              />)}
+      </View>
+      <MapView className='flex-1 static'
         showsUserLocation
         mapType="mutedStandard"
         initialRegion={{
@@ -124,34 +144,42 @@ const CallTaxi = () => {
         }
 
       </MapView>
+      
+      <SafeAreaView className="absolute mx-3 w-96 z-50">
 
-      <View className='h-96 p-6 bg-gray-100 flex-row justify-between'>
-        <View>
-          <Text className='font-bold text-xl mb-4'>{taxiData.name}</Text>
+        <View className='p-4 my-4 bg-white flex-row justify-between shadow-xl rounded-xl border-2 border-gray-200'>
+          <View>
+            <Text className='font-bold text-xl mb-4'>{taxiData.name}</Text>
 
-          <View className='flex-row items-center'>
-            <Text className='text-lg'>{taxiData.phone}      </Text>
+            <View className='flex-row items-center'>
+              <Text className='text-lg'>{taxiData.phone}  </Text>
               <TouchableOpacity
+                onPress={() => { Linking.openURL(`tel:${taxiData.phone}`) }}
                 className=''>
-              <PhoneIcon size={30} color='#72cfe7ff'/>
+                <PhoneIcon size={30} color='#46B210' />
               </TouchableOpacity>
+              <Text></Text>
+            </View>
+
+
+            <TouchableOpacity
+              className='bg-[#72cfe7ff] justify-center rounded-lg my-5 h-10 w-24'>
+              <Text className='text-center font-bold'>Hemen Çağır</Text>
+            </TouchableOpacity>
+
           </View>
-            
-          
-          <TouchableOpacity 
-            onPress={()=>{Linking.openURL(`tel:${taxiData.phone}`)}}
-            className='bg-[#72cfe7ff] items-center rounded-lg my-5 h-10 w-20'>
-            <Text className='text-center mt-2.5 font-bold'>Hemen Çağır</Text>
-          </TouchableOpacity>
+
+          <View className='my-5'>
+            <Image source={require('../assets/taxi.png')}
+              className='h-20 w-20 mx-3 my-2'
+            />
+          </View>
 
         </View>
         
-        <View className='mt-2'>
-          <Image source={require('../assets/taxi.png')}
-            className='h-20 w-20 mx-4 my-2'
-          />
-        </View>
-        
+      </SafeAreaView>
+      <View className='bg-[#72cfe7ff] h-10 z-0 rounded-t-lg'>
+
       </View>
     </View>
   );
