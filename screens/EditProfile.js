@@ -26,8 +26,12 @@ const EditProfile = () => {
   }, []);
 
   const updateClicked = () => {
-    db.collection('users').doc(auth.currentUser.uid).update({ username: username })
-    db.collection('users').doc(auth.currentUser.uid).update({ userImg: imageUrl })
+    if(username != ''){
+      db.collection('users').doc(auth.currentUser.uid).update({ username: username })
+    }
+    if(imageUrl != ''){
+      db.collection('users').doc(auth.currentUser.uid).update({ userImg: imageUrl })
+    }
   }
 
 
