@@ -146,6 +146,7 @@ const CallTaxi = () => {
         <View className=' rounded-full bg-[#72cfe7ff] items-center w-80 h-80 mb-20'>
           <View className=''>
             <Animateable.Image
+              
               source={require("../assets/loading.gif")}
               iterationCount={1}
               className="h-48 w-48 mt-20"
