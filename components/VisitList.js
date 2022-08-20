@@ -4,6 +4,7 @@ import { StarIcon } from 'react-native-heroicons/outline'
 import { StarIcon as StartIconSolid } from 'react-native-heroicons/solid'
 
 
+
 const VisitList = ({
   id,
   icon,

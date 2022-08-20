@@ -9,8 +9,8 @@ const Unit = ({
         setState(!state);
     }
     return (
-        <TouchableOpacity className='border-2 border-black rounded-xl' onPress={toggle}>
-            {state ? <Image source={icon} className='h-20 w-20 rounded-xl bg-[#72cfe7ff]'/> : <Image source={icon} className='h-20 w-20 rounded-xl'/>}
+        <TouchableOpacity className='border-4 border-[#72cfe7ff] rounded-full' onPress={toggle}>
+            {state ? <Image source={icon} className='h-20 w-20 rounded-full bg-[#72cfe7ff]'/> : <Image source={icon} className='h-20 w-20 rounded-full'/>}
         </TouchableOpacity>
 
     )

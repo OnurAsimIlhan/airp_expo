@@ -27,6 +27,7 @@ export default function App() {
     <NavigationContainer>
       <TailwindProvider>
         <Stack.Navigator>
+        <Stack.Screen name="InitPage" component={InitPage} />
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="Wallet" component={Wallet} />
           <Stack.Screen name="Settings" component={Settings} />
@@ -38,7 +39,7 @@ export default function App() {
           <Stack.Screen name="LoadingScreen" component={LoadingScreen} />
           <Stack.Screen name="CalendarScreen" component={CalendarScreen} />
 
-          <Stack.Screen name="InitPage" component={InitPage} />
+          
           <Stack.Screen name="SignUp" component={SignUp} />
           <Stack.Screen name="ForgetPassword" component={ForgetPassword} />
           <Stack.Screen name="InitForgetPass" component={InitForgetPass} />

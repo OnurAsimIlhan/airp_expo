@@ -6,6 +6,7 @@ import { UserIcon, ChevronDownIcon, SearchIcon, AdjustmentsIcon, CashIcon, BellI
 import * as Animateable from 'react-native-animatable'
 
 
+
 import Categories from '../components/Categories';
 import FeaturedRow from '../components/FeaturedRow';
 
@@ -17,6 +18,7 @@ const HomeScreen = () => {
       headerShown: false,
     });
   }, []);
+
 
   return (
     <SafeAreaView className="bg-[#72cfe7ff]">

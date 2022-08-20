@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, StyleSheet, Dimensions, Button, TouchableOpacity, TouchableHighlight, Image } from 'react-native'
+import { View, Text, SafeAreaView, StyleSheet, Dimensions, Button, TouchableOpacity, TouchableHighlight, Image, Modal } from 'react-native'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import MapView, { Callout, Marker } from 'react-native-maps'
 import { useNavigation } from '@react-navigation/native';
@@ -7,6 +7,7 @@ import { Linking } from 'react-native'
 import { PhoneIcon } from 'react-native-heroicons/solid';
 import LoadingScreen from './LoadingScreen';
 import * as Animateable from 'react-native-animatable'
+import StarRating from 'react-native-star-rating';
 
 const CallTaxi = () => {
   const navigation = useNavigation();
@@ -29,6 +30,8 @@ const CallTaxi = () => {
   const [taxiPlaces, setTaxiPlaces] = useState('')
   const [taxiData, setTaxiData] = useState('')
   const [loading, setLoading] = useState(false)
+  const [orderLoading, setOrderLoading] = useState(false)
+  const [verifiedLoading, setVerified] = useState(false)
   const fetchNearbyPlaces = async () => {
 
     const latitude = 39.8746;
@@ -56,9 +59,11 @@ const CallTaxi = () => {
           place['coordinate'] = coordinate
           place['placeId'] = googlePlace.place_id
           place['placeName'] = googlePlace.name
+          place['placeRating'] = googlePlace.rating
+          place['placeVicinity'] = googlePlace.vicinity
           places.push(place);
         }
-
+        console.log(res)
         console.log(
           'Taksi = ' +
           places.map(nearbyPlaces => nearbyPlaces.placeName),
@@ -73,7 +78,7 @@ const CallTaxi = () => {
     setTaxiPlaces(places)
     pressMarker(places[0]);
 
-    setTimeout(()=>{setLoading({loading: true})}, 3000);
+    setTimeout(() => { setLoading({ loading: true }) }, 5000);
     console.log(loading)
 
   };
@@ -86,7 +91,7 @@ const CallTaxi = () => {
       .then(response => {
         return response.json()
       })
-    const taxiInfo = { phone: data.result.formatted_phone_number, name: i.placeName, id: i.placeId }
+    const taxiInfo = { phone: data.result.formatted_phone_number, name: i.placeName, id: i.placeId, rating: i.placeRating, address: i.placeVicinity }
     console.log(data.result.formatted_phone_number)
     setTaxiData(taxiInfo)
 
@@ -140,46 +145,61 @@ const CallTaxi = () => {
         }
 
       </MapView>
-      
+
       <View className='absolute z-40 items-center'>
-      {loading ? (null) : (
-        <View className=' rounded-full bg-[#72cfe7ff] items-center w-80 h-80 mb-20 border-2 shadow-xl border-[#2BC7CA]'>
-          <View className=''>
-            <Animateable.Image
-              
-              source={require("../assets/loading.gif")}
-              iterationCount={1}
-              className="h-48 w-48 mt-20"
-            />
-          </View>
-        </View>)}
+        {loading ? (null) : (
+          <View className=' rounded-full bg-white items-center w-80 h-80 mb-12 border-2 shadow-xl border-[#2BC7CA]'>
+            <View className=''>
+              <Animateable.Image
+
+                source={require("../assets/waitingtaxi.gif")}
+                iterationCount={1}
+                className="h-56 w-56 mt-12"
+              />
+            </View>
+          </View>)}
+        
         <SafeAreaView className=" mx-3 w-96 ">
-
           <View className='p-4 my-4 bg-white flex-row justify-between shadow-xl rounded-lg border-2 border-gray-200'>
-            <View>
+            <View className='flex-1'>
               <Text className='font-bold text-xl mb-4'>{taxiData.name}</Text>
-
-              <View className='flex-row items-center'>
+              {taxiData.phone ? (<View className='flex-row items-center'>
                 <Text className='text-lg'>{taxiData.phone}  </Text>
                 <TouchableOpacity
                   onPress={() => { Linking.openURL(`tel:${taxiData.phone}`) }}
                   className=''>
                   <PhoneIcon size={30} color='#46B210' />
                 </TouchableOpacity>
-                <Text></Text>
+                
+              </View>) : (<Text className='text-lg my-1'>Bilinmeyen Telefon</Text>)}
+
+              <View className='w-24 mt-1 flex-row'>
+              <StarRating
+                  disabled={false}
+                  maxStars={5}
+                  rating={taxiData.rating}
+                  selectedStar={(rating) => this.onStarRatingPress(rating)}
+                  starSize={15}
+                  fullStarColor={'#46b210'}
+                  
+                />
+              <Text className='mx-2 font-bold'>{taxiData.rating}</Text>
               </View>
 
-
               <TouchableOpacity
-                className='bg-[#72cfe7ff] justify-center rounded-lg my-5 h-10 w-24'>
+                
+                className='bg-[#72cfe7ff] justify-center rounded-lg mt-2 h-10 w-24'>
                 <Text className='text-center font-bold'>Hemen Çağır</Text>
               </TouchableOpacity>
 
             </View>
 
-            <View className='my-5'>
-              <Image source={require('../assets/taxi.png')}
-                className='h-20 w-20 mx-3 my-2'
+            <View className=''>
+              <Animateable.Image
+
+                source={require("../assets/taxi.png")}
+                iterationCount={1}
+                className="h-28 w-28 my-2 mr-2"
               />
             </View>
 

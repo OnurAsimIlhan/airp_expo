@@ -17,11 +17,12 @@ const InitPage = () => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
       if (user) {
-        navigation.navigate("Home")
+        navigation.navigate("LoadingScreen")
       }
     })
     return unsubscribe
@@ -45,7 +46,7 @@ const InitPage = () => {
     navigation.navigate("SignUp")
   }
   const onSignInWithGoogle = () => {
-    navigation.navigate("Home")
+    navigation.navigate("LoadingScreen")
   }
   const onSignInWithFacebook = () => {
     navigation.navigate("Home")
