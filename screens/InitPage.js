@@ -64,7 +64,7 @@ const InitPage = () => {
                 className="h-64 w-64"
             />
         </SafeAreaView>
-          <Text className='font-bold text-xl'>~APP NAME~</Text>
+          <Image className='-mt-20' source={require('../assets/signature.png')}/>
         </View>
 
         <CustomInput placeholder="Email" value={email} setValue={setEmail} secureTextEntry={false} />

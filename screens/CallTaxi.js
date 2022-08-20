@@ -195,13 +195,13 @@ const CallTaxi = () => {
           </View>
 
         </SafeAreaView>) : (
-          <View className=' rounded-full bg-white items-center mx-12 my-60 w-80 h-80 border-2 shadow-xl border-[#2BC7CA]'>
+          <View className=' rounded-full bg-white items-center mx-12 my-60 w-80 h-80 border-4 shadow-xl border-[#2BC7CA]'>
             <View className=''>
               <Animateable.Image
 
                 source={require("../assets/waitingtaxi.gif")}
                 iterationCount={1}
-                className="h-56 w-56 mt-12"
+                className="h-52 w-52 mt-12"
               />
             </View>
           </View>)}
@@ -220,7 +220,7 @@ export default CallTaxi
 
 const styles = StyleSheet.create({
   container: {
-    opacity: 0.10
+    opacity: 0.2
   },
   container2:{
     opacity: 1
