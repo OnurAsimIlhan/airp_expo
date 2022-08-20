@@ -12,7 +12,7 @@ const VisitList = ({
   place,
 }) => {
   return (
-    <TouchableOpacity className='bg-white mx-2 rounded-lg'>
+    <TouchableOpacity className='bg-white mx-2 rounded-lg border-2 border-gray-200'>
       <Image source={icon}
         className='h-40 w-60 rounded-t-lg'
       />

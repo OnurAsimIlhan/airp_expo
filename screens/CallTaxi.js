@@ -143,7 +143,7 @@ const CallTaxi = () => {
       
       <View className='absolute z-40 items-center'>
       {loading ? (null) : (
-        <View className=' rounded-full bg-[#72cfe7ff] items-center w-80 h-80 mb-20'>
+        <View className=' rounded-full bg-[#72cfe7ff] items-center w-80 h-80 mb-20 border-2 shadow-xl border-[#2BC7CA]'>
           <View className=''>
             <Animateable.Image
               
@@ -155,7 +155,7 @@ const CallTaxi = () => {
         </View>)}
         <SafeAreaView className=" mx-3 w-96 ">
 
-          <View className='p-4 my-4 bg-white flex-row justify-between shadow-xl rounded-xl border-2 border-gray-200'>
+          <View className='p-4 my-4 bg-white flex-row justify-between shadow-xl rounded-lg border-2 border-gray-200'>
             <View>
               <Text className='font-bold text-xl mb-4'>{taxiData.name}</Text>
 

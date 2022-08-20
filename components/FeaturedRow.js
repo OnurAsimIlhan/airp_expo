@@ -33,7 +33,7 @@ const FeaturedRow = ({ title, description }) => {
           place="Ankara, Ulus"
 
         />
-        <EatList
+        <VisitList
           icon={require('../assets/ankarakalesi.jpg')}
           title="Ankara Kalesi"
           rating={4.5}

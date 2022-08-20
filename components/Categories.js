@@ -6,14 +6,14 @@ import { useNavigation } from '@react-navigation/native';
 const Categories = () => {
   const navigation = useNavigation();
   return (
-    <View>
+    <View className=''>
       <View className="flex-row justify-between mx-5 my-3">
-
+      
         <TouchableOpacity
           onPress={() => {
             navigation.navigate("CallTaxi")
           }}
-          className='border-2 rounded-3xl'
+          className='border-2 rounded-3xl bg-white'
         >
           <Image source={require('../assets/taxi.png')}
             className='h-20 w-20 mx-4 my-2'
@@ -25,7 +25,7 @@ const Categories = () => {
           onPress={() => {
             navigation.navigate("RouteMaker")
           }}
-          className='border-2 rounded-3xl'
+          className='border-2  rounded-3xl  bg-white'
         >
           <Image source={require('../assets/distance.png')}
             className='h-20 w-20 mx-4 my-2 '
@@ -37,7 +37,7 @@ const Categories = () => {
           className='border-2 rounded-3xl'
         >
           <Image source={require('../assets/checkin.png')}
-            className='h-20 w-20 mx-4 my-2'
+            className='h-20 w-20 mx-4 my-2 bg-white'
           />
           <Text className='mx-4 my-2 text-center font-extrabold'>Check-in</Text>
         </TouchableOpacity>
@@ -48,7 +48,7 @@ const Categories = () => {
           onPress={() => {
             navigation.navigate("CalendarScreen")
           }}
-          className='border-2 rounded-3xl'
+          className='border-2 rounded-3xl bg-white'
         >
           <Image source={require('../assets/calendar.png')}
             className='h-20 w-20 mx-4 my-2'
@@ -57,7 +57,7 @@ const Categories = () => {
         </TouchableOpacity>
 
         <TouchableOpacity
-          className='border-2 rounded-3xl'
+          className='border-2 rounded-3xl bg-white'
         >
           <Image source={require('../assets/car-rent.png')}
             className='h-20 w-20 mx-4 my-2'
@@ -66,7 +66,7 @@ const Categories = () => {
         </TouchableOpacity>
 
         <TouchableOpacity
-          className='border-2 rounded-3xl'
+          className='border-2 rounded-3xl bg-white'
         >
           <Image source={require('../assets/favicon.png')}
             className='h-20 w-20 mx-4 my-2'
