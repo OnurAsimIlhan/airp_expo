@@ -106,6 +106,7 @@ const CallTaxi = () => {
 
 
       <MapView className='flex-1 static'
+        style={loading? (styles.container2) : (styles.container)}
         showsUserLocation
         mapType="mutedStandard"
         initialRegion={{
@@ -147,19 +148,7 @@ const CallTaxi = () => {
       </MapView>
 
       <View className='absolute z-40 items-center'>
-        {loading ? (null) : (
-          <View className=' rounded-full bg-white items-center w-80 h-80 mb-12 border-2 shadow-xl border-[#2BC7CA]'>
-            <View className=''>
-              <Animateable.Image
-
-                source={require("../assets/waitingtaxi.gif")}
-                iterationCount={1}
-                className="h-56 w-56 mt-12"
-              />
-            </View>
-          </View>)}
-        
-        <SafeAreaView className=" mx-3 w-96 ">
+        {loading ? ( <SafeAreaView className=" mx-3 w-96 ">
           <View className='p-4 my-4 bg-white flex-row justify-between shadow-xl rounded-lg border-2 border-gray-200'>
             <View className='flex-1'>
               <Text className='font-bold text-xl mb-4'>{taxiData.name}</Text>
@@ -205,7 +194,19 @@ const CallTaxi = () => {
 
           </View>
 
-        </SafeAreaView>
+        </SafeAreaView>) : (
+          <View className=' rounded-full bg-white items-center mx-12 my-60 w-80 h-80 border-2 shadow-xl border-[#2BC7CA]'>
+            <View className=''>
+              <Animateable.Image
+
+                source={require("../assets/waitingtaxi.gif")}
+                iterationCount={1}
+                className="h-56 w-56 mt-12"
+              />
+            </View>
+          </View>)}
+        
+       
 
       </View>
       <View className='bg-[#72cfe7ff] h-10 rounded-t-lg z-0'>
@@ -219,9 +220,10 @@ export default CallTaxi
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    justifyContent: 'center',
+    opacity: 0.10
+  },
+  container2:{
+    opacity: 1
   },
   map: {
     width: Dimensions.get('window').width,
